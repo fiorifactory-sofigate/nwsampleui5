@@ -49,8 +49,9 @@ sap.ui.define([
 			this.oView.getModel('PRD').setData(obj);
 			this.oView.byId('navCon').to(this.oView.byId('navCon').getPages()[1]);
 			var url= this.oView.getModel('IMG').getProperty('/' + this.oView.getModel('PRD').getProperty('/ProductID')); 
+			var prd=this.oView.getModel('PRD').getProperty('/ProductID');
 			this.loadModelIntoViewer(
-				this.oView.byId('viewer'), url.toString(), this.oView.getModel('PRD').getProperty('/ProductID')===13?"VDS":"JPG", false);
+				this.oView.byId('viewer'), url.toString(), prd===13||prd===16?"VDS":"JPG", false);
 			this.oView.getModel().read(e.getSource().getBindingContext().getPath() + '/Supplier', {
 				success: jQuery.proxy(function (a, b) {
 					this.oView.getModel('SUP').setData(a);
