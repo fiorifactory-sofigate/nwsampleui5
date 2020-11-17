@@ -91,6 +91,12 @@
 				"type": "sap.ui.model.json.JSONModel",
 				"settings": {},
 				"preload": false
+			},
+			"IMG": {
+				"type": "sap.ui.model.json.JSONModel",
+				"settings": {},
+				"uri": "./model/img/images.json",
+				"preload": false
 			}
 		},
 		"resources": {

@@ -3,8 +3,8 @@ sap.ui.define([
 	"com/sofigate/products/Products/model/formatter",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-		"sap/ui/vk/ContentResource"
-], function (Controller, formatter, Filter, FilterOperator,ContentResource) {
+	"sap/ui/vk/ContentResource"
+], function (Controller, formatter, Filter, FilterOperator, ContentResource) {
 	"use strict";
 
 	return Controller.extend("com.sofigate.products.Products.controller.Products", {
@@ -48,7 +48,9 @@ sap.ui.define([
 			var obj = e.getSource().getBindingContext().getObject();
 			this.oView.getModel('PRD').setData(obj);
 			this.oView.byId('navCon').to(this.oView.byId('navCon').getPages()[1]);
-
+			var url= this.oView.getModel('IMG').getProperty('/' + this.oView.getModel('PRD').getProperty('/ProductID')); 
+			this.loadModelIntoViewer(
+				this.oView.byId('viewer'), url.toString(), this.oView.getModel('PRD').getProperty('/ProductID')===13?"VDS":"JPG", false);
 			this.oView.getModel().read(e.getSource().getBindingContext().getPath() + '/Supplier', {
 				success: jQuery.proxy(function (a, b) {
 					this.oView.getModel('SUP').setData(a);
@@ -57,6 +59,7 @@ sap.ui.define([
 				error: jQuery.proxy(function (e) {
 
 				}, this)
+
 			});
 
 		},
@@ -66,27 +69,27 @@ sap.ui.define([
 		loadURL: function (e) {
 			var url = 'https://sapui5.hana.ondemand.com/test-resources/sap/ui/vk/demokit/tutorial/VIT/06/src/models/cooper.vds';
 			var viewer = this.oView.byId('viewer');
-			this.loadModelIntoViewer(viewer, url, "vds");
+			this.loadModelIntoViewer(viewer, url, "jpg", true);
 
 		},
-		loadModelIntoViewer : function(viewer, remoteUrl, sourceType, localFile) {
-		// what is currently loaded in the view is destroyed
-		viewer.destroyContentResources();
+		loadModelIntoViewer: function (viewer, remoteUrl, sourceType, localFile) {
+			// what is currently loaded in the view is destroyed
+			viewer.destroyContentResources();
 
-		var source = remoteUrl || localFile;
+			var source = remoteUrl || localFile;
 
-		if (source) {
-			// content of viewer is replaced with new data
-			var contentResource = new ContentResource({
-				source: source,
-				sourceType: sourceType,
-				sourceId: "abc"
-			});
+			if (source) {
+				// content of viewer is replaced with new data
+				var contentResource = new ContentResource({
+					source: source,
+					sourceType: sourceType,
+					sourceId: "abc"
+				});
 
-			// content: chosen path. content added to the view
-			viewer.addContentResource(contentResource);
-		}
-	},
+				// content: chosen path. content added to the view
+				viewer.addContentResource(contentResource);
+			}
+		},
 		_onRouteMatched: function (e) {
 			// take the parameter called arguements in which you can find the inputs to the page oArgs['TaskId']
 			var oArgs = e.getParameter("arguments");
