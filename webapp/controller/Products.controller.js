@@ -2,8 +2,9 @@ sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"com/sofigate/products/Products/model/formatter",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
-], function (Controller, formatter,Filter,FilterOperator) {
+	"sap/ui/model/FilterOperator",
+		"sap/ui/vk/ContentResource"
+], function (Controller, formatter, Filter, FilterOperator,ContentResource) {
 	"use strict";
 
 	return Controller.extend("com.sofigate.products.Products.controller.Products", {
@@ -24,25 +25,68 @@ sap.ui.define([
 				oRoute.attachPatternMatched(jQuery.proxy(this._onRouteMatched), this);
 			}
 		},
-		backToCat:function(){
+		backToCat: function () {
 			this.backtoPrd();
 			window.history.go(-1);
 		},
 		onSearchProduct: function (e) {
-			// var query=e.getParameter('value');
-			// var oList = this.oView.byId("listProducts");
-			// var oBinding = oList.getBinding("items");
-			// var oFilter=[new Filter('',FilterOperator.Contains,query)]
-		},
-		navToProductSuppiers:function(e){
+			var query = e.getParameter('query');
+			var oList = this.oView.byId("listProducts");
+			var oBinding = oList.getBinding("items");
+			var oFilters = []; //oBinding.getFilters();
 			debugger;
-			var obj=e.getSource().getBindingContext().getObject();
+			if (query !== null && query !== undefined && query !== '') {
+				oFilters.push(new Filter('CategoryID', FilterOperator.EQ, this.categoryID));
+				oFilters.push(new Filter('ProductName', FilterOperator.Contains, query));
+			} else {
+				oFilters.push(new Filter('CategoryID', FilterOperator.EQ, this.categoryID))
+			}
+			oBinding.filter(oFilters);
+
+		},
+		navToProductSuppiers: function (e) {
+			var obj = e.getSource().getBindingContext().getObject();
 			this.oView.getModel('PRD').setData(obj);
 			this.oView.byId('navCon').to(this.oView.byId('navCon').getPages()[1]);
+
+			this.oView.getModel().read(e.getSource().getBindingContext().getPath() + '/Supplier', {
+				success: jQuery.proxy(function (a, b) {
+					this.oView.getModel('SUP').setData(a);
+				}, this),
+
+				error: jQuery.proxy(function (e) {
+
+				}, this)
+			});
+
 		},
-		backtoPrd:function(e){
+		backtoPrd: function (e) {
 			this.oView.byId('navCon').back();
 		},
+		loadURL: function (e) {
+			var url = 'https://sapui5.hana.ondemand.com/test-resources/sap/ui/vk/demokit/tutorial/VIT/06/src/models/cooper.vds';
+			var viewer = this.oView.byId('viewer');
+			this.loadModelIntoViewer(viewer, url, "vds");
+
+		},
+		loadModelIntoViewer : function(viewer, remoteUrl, sourceType, localFile) {
+		// what is currently loaded in the view is destroyed
+		viewer.destroyContentResources();
+
+		var source = remoteUrl || localFile;
+
+		if (source) {
+			// content of viewer is replaced with new data
+			var contentResource = new ContentResource({
+				source: source,
+				sourceType: sourceType,
+				sourceId: "abc"
+			});
+
+			// content: chosen path. content added to the view
+			viewer.addContentResource(contentResource);
+		}
+	},
 		_onRouteMatched: function (e) {
 			// take the parameter called arguements in which you can find the inputs to the page oArgs['TaskId']
 			var oArgs = e.getParameter("arguments");
@@ -58,11 +102,20 @@ sap.ui.define([
 						this.oView.setBusy(true);
 					}, this),
 					dataReceived: jQuery.proxy(function (oEvent) {
+
 						this.oView.setBusy(false);
 					}, this)
 				}
 			});
-
+			var listProducts = this.oView.byId('listProducts');
+			var oBinding = listProducts.getBinding('items');
+			this.categoryID = oArgs.CategoryName;
+			if (oArgs.CategoryName !== undefined && oArgs.CategoryName !== '' && oArgs.CategoryName !== null) {
+				var oFilter = [new Filter('CategoryID', FilterOperator.EQ, oArgs.CategoryName)];
+				oBinding.filter(oFilter);
+			} else {
+				this.backToCat();
+			}
 		}
 
 		/**

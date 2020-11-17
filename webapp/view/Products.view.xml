@@ -1,38 +1,75 @@
-<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	controllerName="com.sofigate.products.Products.controller.Products" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="Products in {CategoryName}" showNavButton="true" navButtonPress="backToCat">
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+	xmlns:vk="sap.ui.vk" controllerName="com.sofigate.products.Products.controller.Products" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="Categories" showNavButton="true" navButtonPress="backToCat">
 		<content>
 			<!--<ObjectHeader iconDensityAware="false" title="{CategoryName}" number="{CategoryID}">-->
 			<!--	<ObjectAttribute text="{Description}"/>-->
 			<!--</ObjectHeader>-->
 			<NavContainer id="navCon" width="98%" class="navContainerControl sapUiSmallMarginBottom">
-				<Page id="p1" title="{CategoryName}">
+				<Page id="p1" title="Products in {CategoryName}">
 					<content>
-						<IconTabBar expanded="true" class="sapUiResponsiveContentPadding">
+						<!--	<IconTabBar expanded="true" class="sapUiResponsiveContentPadding">
 							<items>
-								<IconTabFilter icon="sap-icon://hint" key="info">
-									<!--<SearchField placeholder="Product Name" change="onSearchProduct"></SearchField>-->
-									<List items="{/Products}" id="listProducts">
-										<ObjectListItem title="{ProductName}" intro="{ProductID}" type="Active" number="{path:'UnitPrice',formatter:'.formatter.intP'} "
-											numberUnit="EUR" press="navToProductSuppiers">
-											<attributes>
-												<ObjectAttribute text="{QuantityPerUnit}"></ObjectAttribute>
-											</attributes>
-										</ObjectListItem>
-									</List>
-								</IconTabFilter>
+								<IconTabFilter icon="sap-icon://hint" key="info">-->
+						<SearchField placeholder="Product Name" search="onSearchProduct"></SearchField>
+						<List items="{/Products}" id="listProducts">
+							<ObjectListItem title="{ProductName}" intro="{ProductID}" type="Active" number="{path:'UnitPrice',formatter:'.formatter.intP'} "
+								numberUnit="EUR" press="navToProductSuppiers">
+								<attributes>
+									<ObjectAttribute text="{QuantityPerUnit}"></ObjectAttribute>
+								</attributes>
+							</ObjectListItem>
+						</List>
+						<!--	</IconTabFilter>
 							</items>
-						</IconTabBar>
+						</IconTabBar>-->
 					</content>
 				</Page>
-				<Page id="p2" title="{PRD>/ProductName}" showNavButton="true" navButtonPress="backtoPrd">
+				<Page id="p2" title="Products" showNavButton="true" navButtonPress="backtoPrd">
 					<content>
-						<ObjectHeader title="{PRD>/ProductName}" intro="{PRD>/ProductID}" type="Active" number="{path:'PRD>/UnitPrice',formatter:'.formatter.intP'} "
+						<ObjectHeader title="{PRD>/ProductName}" intro="{PRD>/ProductID}" number="{path:'PRD>/UnitPrice',formatter:'.formatter.intP'} "
 							numberUnit="EUR">
 							<attributes>
 								<ObjectAttribute text="{PRD>/QuantityPerUnit}"></ObjectAttribute>
 							</attributes>
 						</ObjectHeader>
+						<IconTabBar expanded="true" class="sapUiResponsiveContentPadding">
+							<items>
+								<IconTabFilter icon="sap-icon://customer-and-supplier" key="Supplier">
+									<FlexBox id="listSupplier" height="100%">
+										<f:SimpleForm id="SimpleFormDisplay354" editable="false" layout="ResponsiveGridLayout" >
+											<f:content>
+												<Label text="Name"/>
+												<Text id="nameText" text="{SUP>/ContactName} - {SUP>/ContactTitle}"/>
+												<Label text="Address"/>
+												<Text text="{SUP>/Address}"/>
+												<Label text="ZIP Code/City"/>
+												<Text text="{SUP>/PostalCode} {SUP>/City}"/>
+												<Label text="Country"/>
+												<Text id="countryText" text="{SUP>/Country}"/>
+												<Label text="HomePage"/>
+												<Link text="ClickHere" href="{SUP>/HomePage}"/>
+												<Label text="Phone"/>
+												<Text text="{SUP>/Phone}"/>
+											</f:content>
+										</f:SimpleForm>
+									</FlexBox>
+								</IconTabFilter>
+								<IconTabFilter icon="sap-icon://product" key="Model">
+									<VBox>
+									<!--	<HBox>
+											<Input value="{SUP>/remoteUrl}" valueLiveUpdate="true" placeholder="Model URL"/>
+											<Button text="load" press="loadURL"></Button>
+										</HBox>-->
+										<vk:Viewer id="viewer" toolbarTitle="{i18n>viewerToolbarTitle}">
+											<vk:layoutData>
+												<FlexItemData growFactor="1"/>
+											</vk:layoutData>
+										</vk:Viewer>
+									</VBox>
+								</IconTabFilter>
+							</items>
+						</IconTabBar>
 					</content>
 				</Page>
 			</NavContainer>
