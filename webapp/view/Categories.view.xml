@@ -1,0 +1,12 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:ct="com.sofigate.products.Products.controls"
+	controllerName="com.sofigate.products.Products.controller.Categories" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="Categories">
+		<content>
+			<TileContainer tiles="{CAT>/value/}">
+				<tiles>
+					<ct:RoundedTile title="{CAT>CategoryName}" icon="{CAT>icon}" info="{CAT>Description}" press="viewMaterials"/>
+				</tiles>
+			</TileContainer>
+		</content>
+	</Page>
+</mvc:View>

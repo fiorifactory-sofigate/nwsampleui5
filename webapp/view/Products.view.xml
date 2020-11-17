@@ -1,0 +1,41 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	controllerName="com.sofigate.products.Products.controller.Products" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="Products in {CategoryName}" showNavButton="true" navButtonPress="backToCat">
+		<content>
+			<!--<ObjectHeader iconDensityAware="false" title="{CategoryName}" number="{CategoryID}">-->
+			<!--	<ObjectAttribute text="{Description}"/>-->
+			<!--</ObjectHeader>-->
+			<NavContainer id="navCon" width="98%" class="navContainerControl sapUiSmallMarginBottom">
+				<Page id="p1" title="{CategoryName}">
+					<content>
+						<IconTabBar expanded="true" class="sapUiResponsiveContentPadding">
+							<items>
+								<IconTabFilter icon="sap-icon://hint" key="info">
+									<!--<SearchField placeholder="Product Name" change="onSearchProduct"></SearchField>-->
+									<List items="{/Products}" id="listProducts">
+										<ObjectListItem title="{ProductName}" intro="{ProductID}" type="Active" number="{path:'UnitPrice',formatter:'.formatter.intP'} "
+											numberUnit="EUR" press="navToProductSuppiers">
+											<attributes>
+												<ObjectAttribute text="{QuantityPerUnit}"></ObjectAttribute>
+											</attributes>
+										</ObjectListItem>
+									</List>
+								</IconTabFilter>
+							</items>
+						</IconTabBar>
+					</content>
+				</Page>
+				<Page id="p2" title="{PRD>/ProductName}" showNavButton="true" navButtonPress="backtoPrd">
+					<content>
+						<ObjectHeader title="{PRD>/ProductName}" intro="{PRD>/ProductID}" type="Active" number="{path:'PRD>/UnitPrice',formatter:'.formatter.intP'} "
+							numberUnit="EUR">
+							<attributes>
+								<ObjectAttribute text="{PRD>/QuantityPerUnit}"></ObjectAttribute>
+							</attributes>
+						</ObjectHeader>
+					</content>
+				</Page>
+			</NavContainer>
+		</content>
+	</Page>
+</mvc:View>

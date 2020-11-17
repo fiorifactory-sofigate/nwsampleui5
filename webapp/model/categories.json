@@ -1,0 +1,44 @@
+{
+	"odata.metadata": "https://services.odata.org/V3/Northwind/Northwind.svc/$metadata#Categories&$select=CategoryID,CategoryName,Description",
+	"value": [{
+		"CategoryID": 1,
+		"CategoryName": "Beverages",
+		"Description": "Soft drinks, coffees, teas, beers, and ales",
+		"icon": "./model/icons/beverage.png"
+	}, {
+		"CategoryID": 2,
+		"CategoryName": "Condiments",
+		"Description": "Sweet and savory sauces, relishes, spreads, and seasonings",
+		"icon": "./model/icons/condiments.png"
+	}, {
+		"CategoryID": 3,
+		"CategoryName": "confections",
+		"Description": "Desserts, candies, and sweet breads",
+		"icon": "./model/icons/confections.png"
+	}, {
+		"CategoryID": 4,
+		"CategoryName": "Dairy Products",
+		"Description": "Cheeses",
+		"icon": "./model/icons/dairy.png"
+	}, {
+		"CategoryID": 5,
+		"CategoryName": "Grains/Cereals",
+		"Description": "Breads, crackers, pasta, and cereal",
+		"icon": "./model/icons/cereals.png"
+	}, {
+		"CategoryID": 6,
+		"CategoryName": "Meat/Poultry",
+		"Description": "Prepared meats",
+		"icon": "./model/icons/meat.png"
+	}, {
+		"CategoryID": 7,
+		"CategoryName": "Produce",
+		"Description": "Dried fruit and bean curd",
+		"icon": "./model/icons/beancurd.png"
+	}, {
+		"CategoryID": 8,
+		"CategoryName": "Seafood",
+		"Description": "Seaweed and fish",
+		"icon": "./model/icons/seafood.png"
+	}]
+}
